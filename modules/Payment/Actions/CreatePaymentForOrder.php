@@ -2,10 +2,10 @@
 
 namespace Modules\Payment\Actions;
 
-use RuntimeException;
-use Modules\Payment\Payment;
-use Modules\Payment\PayBuddy;
 use Modules\Order\Exceptions\PaymentFailedException;
+use Modules\Payment\PayBuddy;
+use Modules\Payment\Payment;
+use RuntimeException;
 
 class CreatePaymentForOrder
 {
@@ -23,7 +23,7 @@ class CreatePaymentForOrder
             'payment_gateway' => 'PayBuddy',
             'payment_id' => $charge['id'],
             'user_id' => $userId,
-            'order_id' => $orderId
+            'order_id' => $orderId,
         ]);
     }
 }

@@ -2,8 +2,8 @@
 
 namespace Modules\Product\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Product\Database\Factories\ProductFactory;
 
 class Product extends Model
@@ -13,7 +13,7 @@ class Product extends Model
     protected $fillable = [
         'name',
         'price_in_cents',
-        'stock'
+        'stock',
     ];
 
     protected static function newFactory()

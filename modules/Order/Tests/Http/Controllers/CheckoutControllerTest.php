@@ -33,8 +33,8 @@ class CheckoutControllerTest extends OrderTestCase
                 'payment_token' => $paymentToken,
                 'products' => [
                     ['id' => $products->first()->id, 'quantity' => 1],
-                    ['id' => $products->last()->id, 'quantity' => 1]
-                ]
+                    ['id' => $products->last()->id, 'quantity' => 1],
+                ],
             ]));
 
         $response->assertStatus(201);
@@ -43,7 +43,7 @@ class CheckoutControllerTest extends OrderTestCase
 
         $response
             ->assertJson([
-                'order_url' => $order->url()
+                'order_url' => $order->url(),
             ])
             ->assertStatus(201);
 
@@ -87,8 +87,8 @@ class CheckoutControllerTest extends OrderTestCase
             ->postJson(route('order::checkout', [
                 'payment_token' => $paymentToken,
                 'products' => [
-                    ['id' => $product->id, 'quantity' => 1]
-                ]
+                    ['id' => $product->id, 'quantity' => 1],
+                ],
             ]));
 
         $response->assertStatus(422)

@@ -1,10 +1,8 @@
 <?php
 
-
 namespace Modules\Product\Dto;
 
 use Modules\Product\Models\Product;
-
 
 class ProductDto
 {
@@ -12,9 +10,7 @@ class ProductDto
         public $id,
         public $priceInCents,
         public $unitInStock
-    )
-    {
-    }
+    ) {}
 
     public static function fromEloquentModel(Product $product): self
     {

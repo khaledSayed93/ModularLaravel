@@ -3,10 +3,10 @@
 namespace Modules\Order\Actions;
 
 use Illuminate\Database\DatabaseManager;
-use Modules\Payment\PayBuddy;
 use Modules\Order\Models\Order;
-use Modules\Product\Dto\CartItemCollection;
 use Modules\Payment\Actions\CreatePaymentForOrder;
+use Modules\Payment\PayBuddy;
+use Modules\Product\Dto\CartItemCollection;
 use Modules\Product\Warehouse\ProductStockManager;
 
 class PurchaseItems
@@ -27,7 +27,7 @@ class PurchaseItems
             $order = Order::query()->create([
                 'status' => 'completed',
                 'total_in_cents' => $orderTotalInCents,
-                'user_id' => $userId
+                'user_id' => $userId,
             ]);
 
             foreach ($items->items() as $cartItem) {
@@ -36,7 +36,7 @@ class PurchaseItems
                 $order->lines()->create([
                     'product_id' => $cartItem->product->id,
                     'product_price_in_cents' => $cartItem->product->priceInCents,
-                    'quantity' => $cartItem->quantity
+                    'quantity' => $cartItem->quantity,
                 ]);
             }
 

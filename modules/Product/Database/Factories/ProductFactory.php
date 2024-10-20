@@ -10,8 +10,8 @@ use Modules\Product\Models\Product;
  */
 class ProductFactory extends Factory
 {
-
     protected $model = Product::class;
+
     /**
      * The current password being used by the factory.
      */

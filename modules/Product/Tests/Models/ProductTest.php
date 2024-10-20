@@ -2,9 +2,9 @@
 
 namespace Modules\Product\Tests\Models;
 
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Modules\Product\Models\Product;
 use Modules\Product\Tests\ProductTestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class ProductTest extends ProductTestCase
 {
