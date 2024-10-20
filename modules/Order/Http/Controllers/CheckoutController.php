@@ -6,7 +6,7 @@ use Modules\Order\Actions\PurchaseItems;
 use Modules\Product\Dto\CartItemCollection;
 use Illuminate\Validation\ValidationException;
 use Modules\Order\Http\Requests\CheckoutRequest;
-use Modules\Order\Actions\PaymentFailedException;
+use Modules\Order\Exceptions\PaymentFailedException;
 use Modules\Payment\PayBuddy; // cross boundary communication
 
 class CheckoutController

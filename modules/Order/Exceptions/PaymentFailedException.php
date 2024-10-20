@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Order\Actions;
+namespace Modules\Order\Exceptions;
 use RuntimeException;
 
 class PaymentFailedException extends RuntimeException {
