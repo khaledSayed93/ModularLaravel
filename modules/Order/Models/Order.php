@@ -27,6 +27,11 @@ class Order extends Model
         'total_in_cents' => 'integer',
     ];
 
+    public function url()
+    {
+        return route('order::orders.show', $this->id);
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
