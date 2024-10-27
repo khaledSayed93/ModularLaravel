@@ -9,6 +9,9 @@ use Modules\Payment\PayBuddy;
 use Modules\Product\Dto\CartItemCollection;
 use Modules\Product\Warehouse\ProductStockManager;
 
+/**
+ * Summary of PurchaseItems
+ */
 class PurchaseItems
 {
     public function __construct(
@@ -22,25 +25,21 @@ class PurchaseItems
 
         return $this->databaseManager->transaction(function () use ($items, $payBuddy, $paymentToken, $userId) {
 
-            $orderTotalInCents = $items->totalInCents();
-
-            $order = Order::query()->create([
-                'status' => 'completed',
-                'total_in_cents' => $orderTotalInCents,
-                'user_id' => $userId,
-            ]);
+            $order = Order::startForUser($userId);
+            $order->addLinesFromCartItems($items);
+            $order->fulfill();
 
             foreach ($items->items() as $cartItem) {
                 $this->productStockManager->decrement($cartItem->product->id, $cartItem->quantity);
-
-                $order->lines()->create([
-                    'product_id' => $cartItem->product->id,
-                    'product_price_in_cents' => $cartItem->product->priceInCents,
-                    'quantity' => $cartItem->quantity,
-                ]);
             }
 
-            $this->createPaymentForOrder->handle($order->id, $userId, $orderTotalInCents, $payBuddy, $paymentToken);
+            $this->createPaymentForOrder->handle(
+                $order->id,
+                $userId,
+                $items->totalInCents(),
+                $payBuddy,
+                $paymentToken
+            );
 
             return $order;
         });
