@@ -3,14 +3,15 @@
 namespace Modules\Order\Models;
 
 use App\Models\User;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Modules\Order\Exceptions\OrderMissingOrderLinesException;
+use NumberFormatter;
 use Modules\Payment\Payment;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Product\Dto\CartItemCollection;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\Order\Exceptions\OrderMissingOrderLinesException;
 
 class Order extends Model
 {
@@ -32,6 +33,11 @@ class Order extends Model
     public function url()
     {
         return route('order::orders.show', $this->id);
+    }
+
+    public function localizedTotal(): string
+    {
+        return (new NumberFormatter('en-US', NumberFormatter::CURRENCY))->formatCurrency($this->total_in_cents / 100, 'USD');
     }
 
     public function user(): BelongsTo
