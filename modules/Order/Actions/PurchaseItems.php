@@ -34,10 +34,6 @@ class PurchaseItems
             $order->addLinesFromCartItems($items);
             $order->fulfill();
 
-            foreach ($items->items() as $cartItem) {
-                $this->productStockManager->decrement($cartItem->product->id, $cartItem->quantity);
-            }
-
             $this->createPaymentForOrder->handle(
                 $order->id,
                 $userId,
@@ -46,18 +42,16 @@ class PurchaseItems
                 $paymentToken
             );
 
-            Mail::to($userEmail)->send(new OrderReceived($order->localizedTotal()));
-
-            // $this->dispatcher->dispatch(
-            //     new OrderFulfilled(
-            //         $order->id,
-            //         $order->total_in_cents,
-            //         $order->localizedTotal(),
-            //         $items,
-            //         $userId,
-            //         $userEmail
-            //     )
-            // );
+            $this->dispatcher->dispatch(
+                new OrderFulfilled(
+                    $order->id,
+                    $order->total_in_cents,
+                    $order->localizedTotal(),
+                    $items,
+                    $userId,
+                    $userEmail
+                )
+            );
 
 
             return $order;
