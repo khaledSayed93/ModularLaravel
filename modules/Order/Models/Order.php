@@ -3,14 +3,14 @@
 namespace Modules\Order\Models;
 
 use App\Models\User;
-use Modules\Payment\Payment;
-use Illuminate\Database\Eloquent\Model;
-use Modules\Product\Dto\CartItemCollection;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Modules\Order\Exceptions\OrderMissingOrderLinesException;
+use Modules\Payment\Payment;
+use Modules\Product\Dto\CartItemCollection;
 
 class Order extends Model
 {
@@ -63,8 +63,7 @@ class Order extends Model
     }
 
     /**
-     * @param CartItemCollection $cartItems
-     * @return void
+     * @param  CartItemCollection  $cartItems
      */
     public function addLinesFromCartItems($cartItems): void
     {
@@ -76,18 +75,19 @@ class Order extends Model
             ]));
         }
 
-        $this->total_in_cents = $this->lines->sum(fn(OrderLine $line) => $line->product_price_in_cents);
+        $this->total_in_cents = $this->lines->sum(fn (OrderLine $line) => $line->product_price_in_cents);
     }
 
     /**
      * Summary of fulfill
-     * @throws OrderMissingOrderLinesException
+     *
      * @return void
+     *
+     * @throws OrderMissingOrderLinesException
      */
-
     public function fulfill()
     {
-        throw_if($this->lines->isEmpty(), new OrderMissingOrderLinesException());
+        throw_if($this->lines->isEmpty(), new OrderMissingOrderLinesException);
 
         $this->status = 'completed';
 
